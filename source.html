@@ -1,0 +1,230 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outfit Combiner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* basic fonts since im not a designer */
+            background: linear-gradient(135deg, #134E5E 0%, #71B280 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            gap: 30px;
+        }
+
+        .instructions {
+            color: white;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 1.8;
+            letter-spacing: 0.3px;
+        }
+
+        .instructions p {
+            margin: 8px 0;
+        }
+
+        .instructions strong {
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+        }
+
+        .right-panel h2 {
+            font-size: 24px;
+            color: #333;
+            margin: 0;
+        }
+
+        .outfit-display {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+        }
+
+        .outfit-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding: 30px;
+            border: 3px solid #ddd;
+            border-radius: 12px;
+            background: #f9f9f9;
+            transition: all 0.3s ease;
+        }
+
+        .outfit-item:hover {
+            border-color: #999;
+            background: #fff;
+        }
+
+        .outfit-item h3 {
+            font-size: 16px;
+            color: #555;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .outfit-item-image {
+            width: 100%;
+            max-width: 300px;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eee;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .outfit-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .outfit-item-color {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            transition: transform 0.2s ease;
+        }
+
+        .outfit-item-color:hover {
+            transform: scale(1.1);
+        }
+
+        .no-selection {
+            text-align: center;
+            color: #999;
+            padding: 60px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="instructions">
+    <p><strong>A / D</strong> keys to switch shirts</p>
+    <p><strong>W / S</strong> keys to switch pants</p>
+</div>
+
+    <div class="container">
+        <div class="right-panel">
+            <h2>This is all I have in the wardrobe!</h2>
+            <div class="outfit-display" id="outfitDisplay">
+                <div class="no-selection">Use W A S D to select (btw if you see this then JS broke)</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // sources
+        const shirts = [
+            { name: 'Shirt A', color: '#f7b543', image: 'https://xcdn.next.co.uk/common/items/default/default/itemimages/3_4Ratio/product/lge/W99132s5.jpg?text=Shirt+A' },
+            { name: 'Shirt B', color: '#839973', image: 'https://xcdn.next.co.uk/common/items/default/default/itemimages/3_4Ratio/product/lge/AW5793s2.jpg?text=Shirt+B' },
+            { name: 'Shirt C', color: '#fce3ee', image: 'https://xcdn.next.co.uk/common/items/default/default/itemimages/3_4Ratio/product/lge/F78985s2.jpg?text=Shirt+C' },
+            { name: 'Shirt D', color: '#141111', image: 'https://xcdn.next.co.uk/common/items/default/default/itemimages/3_4Ratio/product/lge/V12840s2.jpg?text=Shirt+D' },
+            { name: 'Shirt E', color: '#f5e1bc', image: 'https://xcdn.next.co.uk/common/items/default/default/itemimages/3_4Ratio/product/lge/G67396s6.jpg?text=Shirt+E' }
+        ];
+
+        const pants = [
+            { name: 'Pant 1', color: '#1a1d47', image: 'https://xcdn.next.co.uk/common/items/default/default/itemimages/3_4Ratio/product/lge/U96020s7.jpg?text=Pant+1' },
+            { name: 'Pant 2', color: '#c3b091', image: 'https://xcdn.next.co.uk/common/items/default/default/itemimages/3_4Ratio/product/lge/V14731s7.jpg?text=Pant+2' },
+            { name: 'Pant 3', color: '#000000', image: 'https://xcdn.next.co.uk/common/items/default/default/itemimages/3_4Ratio/product/lge/V10243s6.jpg?text=Pant+3' }
+        ];
+
+        let currentShirtIndex = 0;
+        let currentPantIndex = 0;
+
+        function selectShirt(index) {
+            currentShirtIndex = (index + shirts.length) % shirts.length;
+            renderOutfit();
+        }
+
+        function selectPant(index) {
+            currentPantIndex = (index + pants.length) % pants.length;
+            renderOutfit();
+        }
+
+        function renderOutfit() {
+            const display = document.getElementById('outfitDisplay');
+            const shirt = shirts[currentShirtIndex];
+            const pant = pants[currentPantIndex];
+
+            display.innerHTML = `
+                <div class="outfit-item">
+                    <h3>${shirt.name}</h3>
+                    <div class="outfit-item-image">
+                        <img src="${shirt.image}" alt="${shirt.name}">
+                    </div>
+                    <div class="outfit-item-color" style="background-color: ${shirt.color};"></div>
+                </div>
+                <div class="outfit-item">
+                    <h3>${pant.name}</h3>
+                    <div class="outfit-item-image">
+                        <img src="${pant.image}" alt="${pant.name}">
+                    </div>
+                    <div class="outfit-item-color" style="background-color: ${pant.color};"></div>
+                </div>
+            `;
+        }
+
+       // navigation
+document.addEventListener('keydown', (e) => {
+    switch(e.key.toLowerCase()) {
+        case 'a':
+            selectShirt(currentShirtIndex - 1);
+            break;
+        case 'd':
+            selectShirt(currentShirtIndex + 1);
+            break;
+        case 'w':
+            selectPant(currentPantIndex - 1);
+            break;
+        case 's':
+            selectPant(currentPantIndex + 1);
+            break;
+    }
+});
+
+
+        // initialize page
+        renderOutfit();
+    </script>
+</body>
+</html>
