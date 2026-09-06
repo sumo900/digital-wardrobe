@@ -1,3 +1,4 @@
 # digital-wardrobe
-  A website im making that helps you visualize outfits
-
+sumo900.github.io/digital-wardrobe/
+A website im making that helps you visualize outfits
+##### Mobile support will be added soon!
