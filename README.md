@@ -17,6 +17,8 @@ A interactive outfit visualization tool that helps you explore clothing combinat
 
 ### In Progress
 - [ ] Switch from URL-based images to local files
+- [ ] Transitions on swipe
+- [ ] Image preloading
 
 ### Planned
 - [ ] Outfit compatibility system (reject poorly-paired combinations)
@@ -40,6 +42,12 @@ A interactive outfit visualization tool that helps you explore clothing combinat
 - HTML5
 - CSS3
 - Vanilla JavaScript
+
+<figure style="text-align: center;">
+  <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.tenor.com%2FShXqrVOXsM0AAAAj%2Fscuba-scuba-dance.gif&f=1&nofb=1&ipt=ba7b2ffb759e35a1ab2e60e7bf7725b45d71519a6d40b3204907aa35beb46a03" alt="complementary cat" style="max-width: 100%; border-radius: 8px;">
+  <figcaption><em>complementary cat</em></figcaption>
+</figure>
+
 
 ---
 
