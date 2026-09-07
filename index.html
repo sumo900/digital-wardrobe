@@ -135,13 +135,21 @@
             padding: 60px 20px;
             font-size: 16px;
         }
+        .outfit-item {
+        transition: opacity 0.2s ease-in-out;
+        }
+
+        .outfit-item.switching {
+        opacity: 0.6;
+        }
+
     </style>
 </head>
 <body>
-    <div class="instructions">
-   <p><strong>A / D</strong> keys to switch shirts </p>  
+<div class="instructions">
+    <p><strong>A / D</strong> keys to switch shirts </p>  
     <p><strong>W / S</strong> keys to switch pants </p>
-        <p><strong>Gesture Support</strong>is here. Try it out!</p>
+    <p><strong>Gesture Support</strong>is here. Try it out!</p>
 </div>
 
     <div class="container">
@@ -171,16 +179,37 @@
 
         let currentShirtIndex = 0;
         let currentPantIndex = 0;
-
-        function selectShirt(index) {
-            currentShirtIndex = (index + shirts.length) % shirts.length;
-            renderOutfit();
+        
+        // Preload all outfit images
+        function preloadImages() {
+        const allItems = [...shirts, ...pants];
+        allItems.forEach(item => {
+        const img = new Image();
+        img.src = item.image;
+        });
         }
 
-        function selectPant(index) {
-            currentPantIndex = (index + pants.length) % pants.length;
-            renderOutfit();
-        }
+// Call on page load
+window.addEventListener('load', preloadImages);
+
+        
+       function selectShirt(index) {
+    currentShirtIndex = (index + shirts.length) % shirts.length;
+    const shirtItem = document.querySelectorAll('.outfit-item')[0];
+    shirtItem.classList.add('switching');
+    shirtItem.textContent = shirts[currentShirtIndex].name;
+    shirtItem.style.backgroundImage = `url('${shirts[currentShirtIndex].image}')`;
+    setTimeout(() => shirtItem.classList.remove('switching'), 200);
+}
+
+       function selectPant(index) {
+    currentPantIndex = (index + pants.length) % pants.length;
+    const pantItem = document.querySelectorAll('.outfit-item')[1];
+    pantItem.classList.add('switching');
+    pantItem.textContent = pants[currentPantIndex].name;
+    pantItem.style.backgroundImage = `url('${pants[currentPantIndex].image}')`;
+    setTimeout(() => pantItem.classList.remove('switching'), 200);
+}
 
         function renderOutfit() {
             const display = document.getElementById('outfitDisplay');
@@ -205,7 +234,7 @@
             `;
         }
 
-       // navigation
+  // navigation
 document.addEventListener('keydown', (e) => {
     switch(e.key.toLowerCase()) {
         case 'a':
@@ -220,8 +249,8 @@ document.addEventListener('keydown', (e) => {
         case 's':
             selectPant(currentPantIndex + 1);
             break;
-    }
-});
+        }
+        });
                // Gesture Support for Mobile
         let touchStartX = 0;
         const swipeThreshold = 50;
@@ -232,7 +261,7 @@ document.addEventListener('keydown', (e) => {
             if (outfitItem) {
                 touchStartX = e.touches[0].clientX;
                 swipeTarget = outfitItem;
-            }
+        }
         });
 
         document.addEventListener('touchend', (e) => {
