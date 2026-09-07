@@ -135,26 +135,18 @@
             padding: 60px 20px;
             font-size: 16px;
         }
-        .outfit-item {
-        transition: opacity 0.2s ease-in-out;
-        }
-
-        .outfit-item.switching {
-        opacity: 0.6;
-        }
-
     </style>
 </head>
 <body>
-<div class="instructions">
-    <p><strong>A / D</strong> keys to switch shirts </p>  
+    <div class="instructions">
+   <p><strong>A / D</strong> keys to switch shirts </p>  
     <p><strong>W / S</strong> keys to switch pants </p>
-    <p><strong>Gesture Support</strong> is here. Try it out!</p>
+        <p><strong>Gesture Support</strong>is here. Try it out!</p>
 </div>
 
     <div class="container">
         <div class="right-panel">
-            <h2>Don't bury yourself under a mountain of clothes. Use this tool to decide what to wear in advance.</h2>
+            <h2>This is all I have in the wardrobe!</h2>
             <div class="outfit-display" id="outfitDisplay">
                 <div class="no-selection">Use W A S D to select (btw if you see this then JS broke)</div>
             </div>
@@ -179,39 +171,16 @@
 
         let currentShirtIndex = 0;
         let currentPantIndex = 0;
-        
-        // Preload all outfit images
-        function preloadImages() {
-        const allItems = [...shirts, ...pants];
-        allItems.forEach(item => {
-        const img = new Image();
-        img.src = item.image;
-        });
+
+        function selectShirt(index) {
+            currentShirtIndex = (index + shirts.length) % shirts.length;
+            renderOutfit();
         }
 
-// Call on page load
-window.addEventListener('load', preloadImages);
-
-        
-   function selectShirt(index) {
-    currentShirtIndex = (index + shirts.length) % shirts.length;
-    const shirtItem = document.querySelectorAll('.outfit-item')[0];
-    shirtItem.classList.add('switching');
-    shirtItem.textContent = shirts[currentShirtIndex].name;
-    shirtItem.querySelector('img').src = shirts[currentShirtIndex].image;
-    setTimeout(() => shirtItem.classList.remove('switching'), 200);
-}
-
-function selectPant(index) {
-    currentPantIndex = (index + pants.length) % pants.length;
-    const pantItem = document.querySelectorAll('.outfit-item')[1];
-    pantItem.classList.add('switching');
-    pantItem.textContent = pants[currentPantIndex].name;
-    pantItem.querySelector('img').src = pants[currentPantIndex].image;
-    setTimeout(() => pantItem.classList.remove('switching'), 200);
-}
-
-
+        function selectPant(index) {
+            currentPantIndex = (index + pants.length) % pants.length;
+            renderOutfit();
+        }
 
         function renderOutfit() {
             const display = document.getElementById('outfitDisplay');
@@ -219,7 +188,7 @@ function selectPant(index) {
             const pant = pants[currentPantIndex];
 
             display.innerHTML = `
-               <div class="outfit-item">
+                <div class="outfit-item">
                     <h3>${shirt.name}</h3>
                     <div class="outfit-item-image">
                         <img src="${shirt.image}" alt="${shirt.name}">
@@ -236,7 +205,7 @@ function selectPant(index) {
             `;
         }
 
-  // navigation
+       // navigation
 document.addEventListener('keydown', (e) => {
     switch(e.key.toLowerCase()) {
         case 'a':
@@ -251,8 +220,8 @@ document.addEventListener('keydown', (e) => {
         case 's':
             selectPant(currentPantIndex + 1);
             break;
-        }
-        });
+    }
+});
                // Gesture Support for Mobile
         let touchStartX = 0;
         const swipeThreshold = 50;
@@ -263,7 +232,7 @@ document.addEventListener('keydown', (e) => {
             if (outfitItem) {
                 touchStartX = e.touches[0].clientX;
                 swipeTarget = outfitItem;
-        }
+            }
         });
 
         document.addEventListener('touchend', (e) => {
