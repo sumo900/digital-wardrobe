@@ -43,4 +43,4 @@ A interactive outfit visualization tool that helps you explore clothing combinat
 
 ---
 
-Made with ☕ and curiosity
+Made with(out) ☕ 
