@@ -193,23 +193,22 @@
 window.addEventListener('load', preloadImages);
 
         
-       function selectShirt(index) {
+    function selectShirt(index) {
     currentShirtIndex = (index + shirts.length) % shirts.length;
     const shirtItem = document.querySelectorAll('.outfit-item')[0];
     shirtItem.classList.add('switching');
-    shirtItem.textContent = shirts[currentShirtIndex].name;
     shirtItem.style.backgroundImage = `url('${shirts[currentShirtIndex].image}')`;
     setTimeout(() => shirtItem.classList.remove('switching'), 200);
 }
 
-       function selectPant(index) {
+function selectPant(index) {
     currentPantIndex = (index + pants.length) % pants.length;
     const pantItem = document.querySelectorAll('.outfit-item')[1];
     pantItem.classList.add('switching');
-    pantItem.textContent = pants[currentPantIndex].name;
     pantItem.style.backgroundImage = `url('${pants[currentPantIndex].image}')`;
     setTimeout(() => pantItem.classList.remove('switching'), 200);
 }
+
 
         function renderOutfit() {
             const display = document.getElementById('outfitDisplay');
