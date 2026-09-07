@@ -139,8 +139,9 @@
 </head>
 <body>
     <div class="instructions">
-   <p><strong>A / D</strong> keys to switch shirts (swipe ← →)</p>  
-    <p><strong>W / S</strong> keys to switch pants (swipe ↑ ↓)</p>
+   <p><strong>A / D</strong> keys to switch shirts </p>  
+    <p><strong>W / S</strong> keys to switch pants </p>
+        <p><strong>Gesture Support</strong>is here. Try it out!</p>
 </div>
 
     <div class="container">
@@ -221,41 +222,40 @@ document.addEventListener('keydown', (e) => {
             break;
     }
 });
-        // Gesture Support for Mobile
+               // Gesture Support for Mobile
         let touchStartX = 0;
-        let touchStartY = 0;
-        const swipeThreshold = 50; // minimum pixels to register a swipe
+        const swipeThreshold = 50;
+        let swipeTarget = null;
 
         document.addEventListener('touchstart', (e) => {
-            touchStartX = e.touches[0].clientX;
-            touchStartY = e.touches[0].clientY;
+            const outfitItem = e.target.closest('.outfit-item');
+            if (outfitItem) {
+                touchStartX = e.touches[0].clientX;
+                swipeTarget = outfitItem;
+            }
         });
 
         document.addEventListener('touchend', (e) => {
+            if (!swipeTarget) return;
+
             const touchEndX = e.changedTouches[0].clientX;
-            const touchEndY = e.changedTouches[0].clientY;
-
             const diffX = touchStartX - touchEndX;
-            const diffY = touchStartY - touchEndY;
 
-            // Horizontal swipe (shirts)
-            if (Math.abs(diffX) > swipeThreshold && Math.abs(diffY) < swipeThreshold) {
+            if (Math.abs(diffX) > swipeThreshold) {
+                const isShirt = swipeTarget.parentElement.children[0] === swipeTarget;
+                
                 if (diffX > 0) {
-                    selectShirt(currentShirtIndex + 1); // swipe left
+                    // swipe left
+                    isShirt ? selectShirt(currentShirtIndex + 1) : selectPant(currentPantIndex + 1);
                 } else {
-                    selectShirt(currentShirtIndex - 1); // swipe right
+                    // swipe right
+                    isShirt ? selectShirt(currentShirtIndex - 1) : selectPant(currentPantIndex - 1);
                 }
             }
 
-            // Vertical swipe (pants)
-            if (Math.abs(diffY) > swipeThreshold && Math.abs(diffX) < swipeThreshold) {
-                if (diffY > 0) {
-                    selectPant(currentPantIndex + 1); // swipe up
-                } else {
-                    selectPant(currentPantIndex - 1); // swipe down
-                }
-            }
+            swipeTarget = null;
         });
+
 
 
         // initialize page
