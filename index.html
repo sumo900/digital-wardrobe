@@ -212,27 +212,36 @@ window.addEventListener('load', preloadImages);
 }
 
         function renderOutfit() {
-            const display = document.getElementById('outfitDisplay');
-            const shirt = shirts[currentShirtIndex];
-            const pant = pants[currentPantIndex];
+    const display = document.getElementById('outfitDisplay');
+    const shirt = shirts[currentShirtIndex];
+    const pant = pants[currentPantIndex];
 
-            display.innerHTML = `
-                <div class="outfit-item">
-                    <h3>${shirt.name}</h3>
-                    <div class="outfit-item-image">
-                        <img src="${shirt.image}" alt="${shirt.name}">
-                    </div>
-                    <div class="outfit-item-color" style="background-color: ${shirt.color};"></div>
+    // Preload images to avoid blank flash
+    const shirtImg = new Image();
+    const pantImg = new Image();
+    
+    shirtImg.onload = () => {
+        display.innerHTML = `
+            <div class="outfit-item">
+                <h3>${shirt.name}</h3>
+                <div class="outfit-item-image">
+                    <img src="${shirt.image}" alt="${shirt.name}">
                 </div>
-                <div class="outfit-item">
-                    <h3>${pant.name}</h3>
-                    <div class="outfit-item-image">
-                        <img src="${pant.image}" alt="${pant.name}">
-                    </div>
-                    <div class="outfit-item-color" style="background-color: ${pant.color};"></div>
+                <div class="outfit-item-color" style="background-color: ${shirt.color};"></div>
+            </div>
+            <div class="outfit-item">
+                <h3>${pant.name}</h3>
+                <div class="outfit-item-image">
+                    <img src="${pant.image}" alt="${pant.name}">
                 </div>
-            `;
-        }
+                <div class="outfit-item-color" style="background-color: ${pant.color};"></div>
+            </div>
+        `;
+    };
+    
+    shirtImg.src = shirt.image;
+    pantImg.src = pant.image;
+}
 
   // navigation
 document.addEventListener('keydown', (e) => {
