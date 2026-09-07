@@ -197,7 +197,7 @@ window.addEventListener('load', preloadImages);
     currentShirtIndex = (index + shirts.length) % shirts.length;
     const shirtItem = document.querySelectorAll('.outfit-item')[0];
     shirtItem.classList.add('switching');
-    shirtItem.style.backgroundImage = `url('${shirts[currentShirtIndex].image}')`;
+   shirtItem.querySelector('img').src = shirts[currentShirtIndex].image;
     setTimeout(() => shirtItem.classList.remove('switching'), 200);
 }
 
@@ -205,7 +205,7 @@ function selectPant(index) {
     currentPantIndex = (index + pants.length) % pants.length;
     const pantItem = document.querySelectorAll('.outfit-item')[1];
     pantItem.classList.add('switching');
-    pantItem.style.backgroundImage = `url('${pants[currentPantIndex].image}')`;
+   pantItem.querySelector('img').src = pants[currentPantIndex].image;
     setTimeout(() => pantItem.classList.remove('switching'), 200);
 }
 
