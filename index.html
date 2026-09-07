@@ -139,8 +139,8 @@
 </head>
 <body>
     <div class="instructions">
-    <p><strong>A / D</strong> keys to switch shirts</p>
-    <p><strong>W / S</strong> keys to switch pants</p>
+   <p><strong>A / D</strong> keys to switch shirts (swipe ← →)</p>  
+    <p><strong>W / S</strong> keys to switch pants (swipe ↑ ↓)</p>
 </div>
 
     <div class="container">
@@ -221,6 +221,41 @@ document.addEventListener('keydown', (e) => {
             break;
     }
 });
+        // Gesture Support for Mobile
+        let touchStartX = 0;
+        let touchStartY = 0;
+        const swipeThreshold = 50; // minimum pixels to register a swipe
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const touchEndY = e.changedTouches[0].clientY;
+
+            const diffX = touchStartX - touchEndX;
+            const diffY = touchStartY - touchEndY;
+
+            // Horizontal swipe (shirts)
+            if (Math.abs(diffX) > swipeThreshold && Math.abs(diffY) < swipeThreshold) {
+                if (diffX > 0) {
+                    selectShirt(currentShirtIndex + 1); // swipe left
+                } else {
+                    selectShirt(currentShirtIndex - 1); // swipe right
+                }
+            }
+
+            // Vertical swipe (pants)
+            if (Math.abs(diffY) > swipeThreshold && Math.abs(diffX) < swipeThreshold) {
+                if (diffY > 0) {
+                    selectPant(currentPantIndex + 1); // swipe up
+                } else {
+                    selectPant(currentPantIndex - 1); // swipe down
+                }
+            }
+        });
 
 
         // initialize page
