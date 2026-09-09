@@ -16,7 +16,7 @@ A interactive outfit visualization tool that helps you explore clothing combinat
 ## Roadmap
 
 ### In Progress
-- [ ] Switch from URL-based images to local files
+- [x] Switch from URL-based images to local files
 - [ ] Transitions on swipe
 - [ ] Image preloading
 
@@ -36,6 +36,7 @@ A interactive outfit visualization tool that helps you explore clothing combinat
 |------|--------|
 | 06/09 | Mobile support planned |
 | 07/09 | Touch gestures implemented |
+| 09/09 | Remove external image dependencies |
 
 ## Tech Stack
 
