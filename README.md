@@ -37,6 +37,10 @@ A interactive outfit visualization tool that helps you explore clothing combinat
 | 06/09 | Mobile support planned |
 | 07/09 | Touch gestures implemented |
 | 09/09 | Remove external image dependencies |
+| 01/10 | Exams end, development continues |
+| 02/09 | Experimenting with new homepage |
+
+
 
 ## Tech Stack
 
